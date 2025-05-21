@@ -474,8 +474,8 @@
             <li><a href="/MAdocumentRequests" class="docsreqs"><i class="fas fa-file-alt"></i><span>Document Requests</span></a></li>
             <li><a href="/MAleavesRequests" class="leavesreqs"><i class="fas fa-calendar-check"></i><span>Leaves Requests</span></a></li>
             <li><a href="/alllogs" class="logs"><i class="fas fa-history"></i><span>All Logs</span></a></li>
-            <li><a href="/attendance" class="attendance"><i class="fas fa-calendar"></i><span>My Attendance</span></a></li>
-            <li><a href="/publishnews" class="pubnews"><i class="fas fa-bullhorn"></i><span>Publish News</span></a></li>
+            <li><a href="/MAattendance" class="attendance"><i class="fas fa-calendar"></i><span>My Attendance</span></a></li>
+            <li><a href="/MApublishNews" class="pubnews"><i class="fas fa-bullhorn"></i><span>Publish News</span></a></li>
             <li><a href="/mylogs" class="logs"><i class="fas fa-history"></i><span>My Logs</span></a></li>
         </ul>
     </div>
@@ -489,15 +489,15 @@
                     <span>Log Out</span>
                 </button>
             </form>
-            <a href="/attendance" class="attendances-btn animate__animated animate__fadeIn">
+            <a href="/MAattendances" class="attendances-btn animate__animated animate__fadeIn">
                 <i class="fas fa-calendar"></i>
                 <span>Attendances</span>
             </a>
-            <a href="/allnews" class="notifications-btn animate__animated animate__fadeIn">
+            <a href="/MAallnews" class="notifications-btn animate__animated animate__fadeIn">
                 <i class="fas fa-bell"></i>
                 <span>Notifications</span>
             </a>
-            <a href="/profile" class="profile-btn animate__animated animate__fadeIn">
+            <a href="/MAprofile" class="profile-btn animate__animated animate__fadeIn">
                 <i class="fas fa-user"></i>
                 <span>Profile</span>
             </a>

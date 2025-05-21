@@ -1,15 +1,15 @@
-@extends('RH.master')
+@extends('Manager.masterma')
 
 @section('content')
 <section class="main">
     <style>
         :root {
-            --primary-blue: #1a73e8;
-            --primary-blue-dark: #1557b0;
+            --primary-blue: #310af5;
+            --primary-blue-dark: #5a36fd;
             --white: #ffffff;
             --light-blue: #e8f0fe;
             --dark-blue: #1f2a44;
-            --gradient-blue: linear-gradient(135deg, #1a73e8, #1557b0);
+            --gradient-blue: linear-gradient(135deg, #310af5, #2a09cc);
             --gray-bg: #f7f9fc;
             --glass: rgba(255, 255, 255, 0.7);
             --danger: #dc3545;
@@ -224,7 +224,7 @@
             <h1 class="edit-title">Edit Employee: {{ $employee->nomComplet }}</h1>
         </div>
 
-        <form action="{{ route('employeeupdatesection') }}" method="POST" enctype="multipart/form-data" class="edit-form">
+        <form action="{{ route('MAemployeeupdatesection') }}" method="POST" enctype="multipart/form-data" class="edit-form">
             @csrf
             @method('PUT')
             <div class="form-group">
@@ -266,13 +266,6 @@
 
 
             <div class="form-group">
-                <label for="dateEmbauche">Date d'Embauche</label>
-                <input type="date" name="dateEmbauche" id="dateEmbauche"
-                value="{{ old('dateEmbauche', $employee->dateEmbauche ? \Carbon\Carbon::parse($employee->dateEmbauche)->format('Y-m-d') : '') }}">
-                @error('dateEmbauche') <span class="error-message">{{ $message }}</span> @enderror
-            </div>
-
-            <div class="form-group">
                 <label for="statutMarital">Statut Marital</label>
                 <select name="statutMarital" id="statutMarital">
                     <option value="" {{ !$employee->statutMarital ? 'selected' : '' }}>Sélectionner</option>
@@ -291,7 +284,7 @@
 
             <div class="form-buttons">
                 <button type="submit" class="btn btn-submit">Save Changes</button>
-                <a href="/RHprofile" class="btn btn-cancel">Cancel</a>
+                <a href="/MAprofile" class="btn btn-cancel">Cancel</a>
             </div>
         </form>
     </div>

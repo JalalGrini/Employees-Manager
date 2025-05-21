@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use App\Models\Utilisateures;
 
 class leave extends Model
 {
@@ -18,5 +19,10 @@ class leave extends Model
         'status',
         'rejected_reason',
     ];
+
+    public function employee()
+{
+    return $this->belongsTo(Utilisateures::class, 'employee_id');
+}
     use HasFactory;
 }

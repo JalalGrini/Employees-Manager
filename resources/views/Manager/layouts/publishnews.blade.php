@@ -1,22 +1,22 @@
-@extends('RH.master')
+@extends('Manager.masterma')
 
 @section('content')
 <section class="main">
     <style>
         :root {
-            --primary-blue: #1a73e8;
-            --primary-blue-dark: #1557b0;
+            --primary-blue: #310af5;
+            --primary-blue-dark: #5a36fd;
             --white: #ffffff;
             --light-blue: #e8f0fe;
             --dark-blue: #1f2a44;
-            --gradient-blue: linear-gradient(135deg, #1a73e8, #1557b0);
+            --gradient-blue: linear-gradient(135deg, #310af5, #2a09cc);;
             --gray-bg: #f7f9fc;
             --glass: rgba(255, 255, 255, 0.7);
             --danger: #dc3545;
             --success: #28a745;
         }
 
-        .edit-container {
+        .publish-container {
             max-width: 900px;
             margin: 2rem auto;
             padding: 2rem;
@@ -26,13 +26,13 @@
             box-shadow: 0 12px 30px rgba(0, 0, 0, 0.1);
         }
 
-        .edit-header {
+        .publish-header {
             text-align: center;
             margin-bottom: 2rem;
             position: relative;
         }
 
-        .edit-header::before {
+        .publish-header::before {
             content: '';
             position: absolute;
             top: 0;
@@ -44,7 +44,7 @@
             border-radius: 2px;
         }
 
-        .edit-title {
+        .publish-title {
             font-size: 2rem;
             font-weight: 700;
             color: var(--dark-blue);
@@ -54,10 +54,10 @@
             margin-bottom: 0.5rem;
         }
 
-        .edit-form {
-            display: grid;
+        .publish-form {
+            display: flex;
+            flex-direction: column;
             gap: 1.5rem;
-            grid-template-columns: 1fr 1fr;
         }
 
         .form-group {
@@ -82,7 +82,6 @@
         }
 
         .form-group input,
-        .form-group select,
         .form-group textarea {
             padding: 0.75rem;
             border: 2px solid var(--light-blue);
@@ -93,21 +92,15 @@
         }
 
         .form-group input:focus,
-        .form-group select:focus,
         .form-group textarea:focus {
             border-color: var(--primary-blue);
         }
 
         .form-group textarea {
             resize: vertical;
-            min-height: 100px;
+            min-height: 150px;
         }
 
-        .form-group.full-width {
-            grid-column: span 2;
-        }
-
-        /* File Input Specific Styles */
         .form-group.file-input-group {
             position: relative;
             overflow: hidden;
@@ -158,7 +151,6 @@
         }
 
         .form-buttons {
-            grid-column: span 2;
             display: flex;
             justify-content: center;
             gap: 1rem;
@@ -183,6 +175,7 @@
         .btn-submit:hover {
             background: var(--primary-blue-dark);
             color: var(--white);
+
         }
 
         .btn-cancel {
@@ -193,23 +186,16 @@
         .btn-cancel:hover {
             background: #b02a37;
             color: var(--white);
+
         }
 
         @media (max-width: 767px) {
-            .edit-container {
+            .publish-container {
                 padding: 1.5rem;
                 margin: 1rem;
             }
 
-            .edit-form {
-                grid-template-columns: 1fr;
-            }
-
-            .form-group.full-width {
-                grid-column: span 1;
-            }
-
-            .edit-title {
+            .publish-title {
                 font-size: 1.8rem;
             }
 
@@ -219,79 +205,51 @@
         }
     </style>
 
-    <div class="edit-container animate__animated animate__fadeIn">
-        <div class="edit-header">
-            <h1 class="edit-title">Edit Employee: {{ $employee->nomComplet }}</h1>
+    <div class="publish-container animate__animated animate__fadeIn">
+        <div class="publish-header">
+            <h1 class="publish-title">Publish News</h1>
         </div>
 
-        <form action="{{ route('employeeupdatesection') }}" method="POST" enctype="multipart/form-data" class="edit-form">
+        @if (session('success'))
+            <div class="alert alert-success" style="background: var(--success); color: var(--white); padding: 1rem; border-radius: 8px; margin-bottom: 2rem;">
+                {{ session('success') }}
+            </div>
+        @endif
+
+        <form action="{{ route('MApublishnews') }}" method="POST" enctype="multipart/form-data" class="publish-form">
             @csrf
-            @method('PUT')
             <div class="form-group">
-                <label for="nomComplet">Nom Complet</label>
-                <input type="text" name="nomComplet" id="nomComplet" value="{{ old('nomComplet', $employee->nomComplet) }}">
-                @error('nomComplet') <span class="error-message">{{ $message }}</span> @enderror
+                <label for="title">Title</label>
+                <input type="text" name="title" id="title" value="{{ old('title') }}">
+                @error('title') <span class="error-message">{{ $message }}</span> @enderror
             </div>
 
             <div class="form-group">
-                <label for="CIN">CIN</label>
-                <input type="text" name="CIN" id="CIN" value="{{ old('CIN', $employee->CIN) }}">
-                @error('CIN') <span class="error-message">{{ $message }}</span> @enderror
-            </div>
-
-            <div class="form-group">
-                <label for="email">Email</label>
-                <input type="email" name="email" id="email" value="{{ old('email', $employee->email) }}">
-                @error('email') <span class="error-message">{{ $message }}</span> @enderror
-            </div>
-            
-            <div class="form-group">
-                <label for="telephone">Téléphone</label>
-                <input type="text" name="telephone" id="telephone" value="{{ old('telephone', $employee->telephone) }}">
-                @error('telephone') <span class="error-message">{{ $message }}</span> @enderror
-            </div>
-
-            <div class="form-group">
-                <label for="adresse">Adresse</label>
-                <input type="text" name="adresse" id="adresse" value="{{ old('adresse', $employee->adresse) }}">
-                @error('adresse') <span class="error-message">{{ $message }}</span> @enderror
-            </div>
-
-            <div class="form-group">
-                <label for="dateNaissance">Date de Naissance</label>
-                <input type="date" name="dateNaissance" id="dateNaissance"
-                value="{{ old('dateNaissance', $employee->dateNaissance ? \Carbon\Carbon::parse($employee->dateNaissance)->format('Y-m-d') : '') }}">
-                @error('dateNaissance') <span class="error-message">{{ $message }}</span> @enderror
-            </div>
-
-
-            <div class="form-group">
-                <label for="dateEmbauche">Date d'Embauche</label>
-                <input type="date" name="dateEmbauche" id="dateEmbauche"
-                value="{{ old('dateEmbauche', $employee->dateEmbauche ? \Carbon\Carbon::parse($employee->dateEmbauche)->format('Y-m-d') : '') }}">
-                @error('dateEmbauche') <span class="error-message">{{ $message }}</span> @enderror
-            </div>
-
-            <div class="form-group">
-                <label for="statutMarital">Statut Marital</label>
-                <select name="statutMarital" id="statutMarital">
-                    <option value="" {{ !$employee->statutMarital ? 'selected' : '' }}>Sélectionner</option>
-                    <option value="Célibataire" {{ $employee->statutMarital == 'Célibataire' ? 'selected' : '' }}>Célibataire</option>
-                    <option value="Marié(e)" {{ $employee->statutMarital == 'Marié(e)' ? 'selected' : '' }}>Marié(e)</option>
-                    <option value="Divorcé(e)" {{ $employee->statutMarital == 'Divorcé(e)' ? 'selected' : '' }}>Divorcé(e)</option>
-                </select>
-                @error('statutMarital') <span class="error-message">{{ $message }}</span> @enderror
+                <label for="content">Content</label>
+                <textarea name="content" id="content">{{ old('content') }}</textarea>
+                @error('content') <span class="error-message">{{ $message }}</span> @enderror
             </div>
 
             <div class="form-group file-input-group">
-                <label for="photo">Photo</label>
-                <input type="file" name="photo" id="photo" accept="image/*">
-                @error('photo') <span class="error-message">{{ $message }}</span> @enderror
+                <label for="image">Image (Optional)</label>
+                <input type="file" name="image" id="image" accept="image/*">
+                @error('image') <span class="error-message">{{ $message }}</span> @enderror
+            </div>
+
+            <div class="form-group">
+                <label for="title">Author</label>
+                <input type="text" name="author" id="author" value="{{ old('author') }}">
+                @error('author') <span class="error-message">{{ $message }}</span> @enderror
+            </div>
+
+            <div class="form-group">
+                <label for="published_at">Publication Date</label>
+                <input type="datetime-local" name="published_at" id="published_at" value="{{ old('published_at', now()->format('Y-m-d\TH:i')) }}">
+                @error('published_at') <span class="error-message">{{ $message }}</span> @enderror
             </div>
 
             <div class="form-buttons">
-                <button type="submit" class="btn btn-submit">Save Changes</button>
-                <a href="/RHprofile" class="btn btn-cancel">Cancel</a>
+                <button type="submit" class="btn btn-submit">Publish News</button>
             </div>
         </form>
     </div>

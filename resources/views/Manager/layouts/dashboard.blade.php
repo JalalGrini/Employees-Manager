@@ -191,7 +191,6 @@
                 <div class="card-body">
                     <h5>Total Employees</h5>
                     <p class="display-5 fw-bold" style="color: var(--primary-blue);">{{$activeEmployees}}</p>
-                    <a href="" class="btn btn-primary">View All</a>
                 </div>
             </div>
         </div>
@@ -203,19 +202,17 @@
                 <div class="card-body">
                     <h5>Document Requests</h5>
                     <p class="display-5 fw-bold" style="color: var(--primary-blue);">{{$documentreqs}}</p>
-                    <a href="" class="btn btn-primary">Manage</a>
                 </div>
             </div>
         </div>
         <div class="col-lg-4 col-md-6">
             <div class="card animate__animated animate__fadeInUp" style="animation-delay: 0.4s;">
                 <div class="card-header">
-                    <i class="fas fa-user-slash me-2 text-white"></i>  Inactive Employees
+                    <i class="fas fa-user-slash me-2 text-white"></i>Inactive Employees
                 </div>
                 <div class="card-body">
                     <h5>Employees on leave</h5>
                     <p class="display-5 fw-bold" style="color: var(--primary-blue);">{{$inactiveemployees}}</p>
-                    <a href="" class="btn btn-primary">View all</a>
                 </div>
             </div>
         </div>
@@ -234,7 +231,7 @@
                         </div>
                     </div>
                     @endforeach
-                    <a href="" class="btn btn-primary mt-3">View all news</a>
+                    <a href="/MAallnews" class="btn btn-primary mt-3">View all news</a>
                 </div>
             </div>
         </div>
@@ -246,18 +243,18 @@
                 <div class="card-body">
                     <ul class="list-unstyled">
                         <li class="mb-3">
-                            <a href="" class="btn btn-outline-primary w-100 text-start py-2">
-                                <i class="fas fa-user-plus me-2"></i>Add New Employee
+                            <a href="/alllogs" class="btn btn-outline-primary w-100 text-start py-2">
+                                <i class="fas fa-history"></i> My Department's Logs
                             </a>
                         </li>
                         <li class="mb-3">
-                            <a href="" class="btn btn-outline-primary w-100 text-start py-2">
-                                <i class="fas fa-clipboard-list me-2"></i>Completed documents
+                            <a href="/MAdocumentRequests" class="btn btn-outline-primary w-100 text-start py-2">
+                                <i class="fas fa-clipboard-list me-2"></i>My Department's Docs
                             </a>
                         </li>
                         <li>
-                            <a href="" class="btn btn-outline-primary w-100 text-start py-2">
-                                <i class="fas fa-chart-bar me-2"></i>Approved Leaves
+                            <a href="/MAleavesRequests" class="btn btn-outline-primary w-100 text-start py-2">
+                                <i class="fas fa-chart-bar me-2"></i>My Department's Leaves
                             </a>
                         </li>
                     </ul>

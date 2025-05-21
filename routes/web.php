@@ -173,11 +173,33 @@ Route::middleware(['rh.auth'])->group(function () {
 
         Route::get('/alllogs',[Manager::class, 'alllogs'])->name('alllogs');
 
+        Route::get('/MAattendance', [Manager::class, 'index'])->name('MAattendance.index');
 
+        Route::post('/MAcheckattendance', [Manager::class, 'attendancestore'])->name('MAattendance.store');
 
+        Route::get('/MAattendances', [Manager::class, 'showaattendences'])->name('MAattendancess');
 
+        Route::get('/MApublishNews',function(){
+            return view('Manager.layouts.publishnews');
+        });
 
+        Route::post('/MApubnews',[Manager::class,'pubnews'])->name('MApublishnews');
 
+        Route::get('/MAallnews',[Manager::class,'allnews']);
+
+        Route::delete('/handledeletenews/{id}',[Manager::class,'deletenews'])->name('MAnews.delete');
+
+        Route::put('/handleupdatenews/{id}',[Manager::class,'updatenews'])->name('MAnews.update');
+
+        Route::get('/editnews/{id}',[Manager::class,'editnewsview'])->name('MAnews.edit');
+
+        Route::get('/MAprofile',[Manager::class,'profile']);
+
+        Route::get('/MAprofileview',[Manager::class,'profilesection']);
+
+        Route::get('/MAeditemployeesection',[Manager::class,'editemployeesection'])->name('MAeditemployeesection');
+
+        Route::put('/handleupdatesection',[Manager::class,'updateemployeesection'])->name('MAemployeeupdatesection');
 
     });
 

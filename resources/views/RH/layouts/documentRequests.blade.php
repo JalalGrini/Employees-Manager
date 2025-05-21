@@ -2,6 +2,8 @@
 
 @section('content')
 <section class="main">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
     <style>
         :root {
             --primary-blue: #1a73e8;
@@ -14,6 +16,17 @@
             --glass: rgba(255, 255, 255, 0.7);
             --danger: #dc3545;
             --success: #28a745;
+            /* Status colors from leaves template */
+            --status-pending-bg: #fef3c7;
+            --status-pending-text: #d97706;
+            --status-approved-bg: #dcfce7;
+            --status-approved-text: #15803d;
+            --status-rejected-bg: #fee2e2;
+            --status-rejected-text: #b91c1c;
+            --status-in-progress-bg: #dbeafe;
+            --status-in-progress-text: #1e40af;
+            --status-completed-bg: #ede9fe;
+            --status-completed-text: #6d28d9;
         }
 
         .documents-container {
@@ -79,6 +92,11 @@
             font-weight: 600;
         }
 
+        .documents-table th.status-column,
+        .documents-table td.status-column {
+            min-width: 120px; /* Ensure enough space for "In Progress" */
+        }
+
         .documents-table tr:hover {
             background: var(--gray-bg);
         }
@@ -88,6 +106,49 @@
             white-space: nowrap;
             overflow: hidden;
             text-overflow: ellipsis;
+        }
+
+        .status-badge {
+            padding: 0.4rem 1rem;
+            border-radius: 9999px;
+            font-size: 0.8rem;
+            font-weight: 500;
+            text-transform: capitalize;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.4rem;
+            transition: all 0.3s ease;
+            white-space: nowrap; /* Prevent text wrapping */
+        }
+
+        .status-badge:hover {
+            transform: scale(1.05);
+            box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+        }
+
+        .status-pending {
+            background: var(--status-pending-bg);
+            color: var(--status-pending-text);
+        }
+
+        .status-in-progress {
+            background: var(--status-in-progress-bg);
+            color: var(--status-in-progress-text);
+        }
+
+        .status-approved {
+            background: var(--status-approved-bg);
+            color: var(--status-approved-text);
+        }
+
+        .status-rejected {
+            background: var(--status-rejected-bg);
+            color: var(--status-rejected-text);
+        }
+
+        .status-completed {
+            background: var(--status-completed-bg);
+            color: var(--status-completed-text);
         }
 
         .btn {
@@ -216,6 +277,27 @@
             color: var(--white);
         }
 
+        .alert-close {
+            position: absolute;
+            top: 0.5rem;
+            right: 0.5rem;
+            background: none;
+            border: none;
+            color: var(--white);
+            font-size: 1rem;
+            cursor: pointer;
+            transition: color 0.3s ease;
+        }
+
+        .alert-close:hover {
+            color: var(--danger);
+        }
+
+        .alert-success {
+            position: relative;
+            padding-right: 2.5rem; /* Space for close button */
+        }
+
         @media (max-width: 767px) {
             .documents-container {
                 padding: 1.5rem;
@@ -235,83 +317,88 @@
             .modal-content {
                 padding: 1.5rem;
             }
+
+            .documents-table th.status-column,
+            .documents-table td.status-column {
+                min-width: 100px; /* Smaller for mobile */
+            }
         }
         .pagination-container {
-        display: flex;
-        justify-content: center;
-        margin-top: 2.5rem;
-        margin-bottom: 2rem;
-    }
+            display: flex;
+            justify-content: center;
+            margin-top: 2.5rem;
+            margin-bottom: 2rem;
+        }
 
-    .pagination {
-        display: flex;
-        align-items: center;
-        gap: 0.5rem;
-    }
+        .pagination {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
 
-    .pagination a, .pagination span {
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        width: 32px;
-        height: 32px;
-        border-radius: 50%;
-        font-size: 0.9rem;
-        font-weight: 500;
-        text-decoration: none;
-        color: var(--dark-blue);
-        background: var(--white);
-        transition: all 0.3s ease;
-        box-shadow: var(--shadow);
-    }
+        .pagination a, .pagination span {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 32px;
+            height: 32px;
+            border-radius: 50%;
+            font-size: 0.9rem;
+            font-weight: 500;
+            text-decoration: none;
+            color: var(--dark-blue);
+            background: var(--white);
+            transition: all 0.3s ease;
+            box-shadow: var(--shadow);
+        }
 
-    .pagination a.nav-arrow {
-        width: 48px;
-        height: 48px;
-        background: var(--gradient-blue);
-        color: var(--white);
-    }
+        .pagination a.nav-arrow {
+            width: 48px;
+            height: 48px;
+            background: var(--gradient-blue);
+            color: var(--white);
+        }
 
-    .pagination a:hover:not(.nav-arrow) {
-        background: var(--light-blue);
-        color: var(--primary-blue);
-        transform: scale(1.1);
-        box-shadow: 0 6px 16px rgba(0, 0, 0, 0.15);
-    }
+        .pagination a:hover:not(.nav-arrow) {
+            background: var(--light-blue);
+            color: var(--primary-blue);
+            transform: scale(1.1);
+            box-shadow: 0 6px 16px rgba(0, 0, 0, 0.15);
+        }
 
-    .pagination a.nav-arrow:hover {
-        background: var(--primary-blue-dark);
-        transform: scale(1.05);
-        box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2);
-    }
+        .pagination a.nav-arrow:hover {
+            background: var(--primary-blue-dark);
+            transform: scale(1.05);
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2);
+        }
 
-    .pagination .current {
-        background: var(--gradient-blue);
-        color: var(--white);
-        font-weight: 600;
-        transform: scale(1.1);
-        box-shadow: 0 6px 16px rgba(0, 0, 0, 0.15);
-    }
+        .pagination .current {
+            background: var(--gradient-blue);
+            color: var(--white);
+            font-weight: 600;
+            transform: scale(1.1);
+            box-shadow: 0 6px 16px rgba(0, 0, 0, 0.15);
+        }
 
-    .pagination .disabled {
-        color: #aaa;
-        background: #f1f3f5;
-        cursor: not-allowed;
-        box-shadow: none;
-        transform: none;
-    }
+        .pagination .disabled {
+            color: #aaa;
+            background: #f1f3f5;
+            cursor: not-allowed;
+            box-shadow: none;
+            transform: none;
+        }
 
-    .pagination .dots {
-        font-size: 0.9rem;
-        color: var(--dark-blue);
-        padding: 0 0.5rem;
-        background: none;
-        box-shadow: none;
-    }
+        .pagination .dots {
+            font-size: 0.9rem;
+            color: var(--dark-blue);
+            padding: 0 0.5rem;
+            background: none;
+            box-shadow: none;
+        }
 
-    .pagination a i, .pagination span i {
-        font-size: 1.1rem;
-    }
+        .pagination a i, .pagination span i {
+            font-size: 1.1rem;
+        }
 
     </style>
 
@@ -323,6 +410,9 @@
         @if (session('success'))
             <div class="alert alert-success" style="background: var(--success); color: var(--white); padding: 1rem; border-radius: 8px; margin-bottom: 1rem;">
                 {{ session('success') }}
+                <button class="alert-close" onclick="closeAlert(this)" aria-label="Close alert">
+                    <i class="fas fa-times"></i>
+                </button>
             </div>
         @endif
 
@@ -333,7 +423,7 @@
                         <th>Document Title</th>
                         <th>Employee</th>
                         <th>Description</th>
-                        <th>Status</th>
+                        <th class="status-column">Status</th>
                         <th>Actions</th>
                     </tr>
                 </thead>
@@ -343,7 +433,11 @@
                             <td class="document-title" title="{{ $document->document_title }}">{{ $document->document_title }}</td>
                             <td>{{ $document->employee_name }}</td>
                             <td>{{ $document->description ?? 'N/A' }}</td>
-                            <td>{{ ucfirst($document->status) }}</td>
+                            <td class="status-column">
+                                <span class="status-badge status-{{ str_replace('_', '-', $document->status) }}">
+                                    <i class="fas fa-circle fa-xs"></i> {{ ucfirst(str_replace('_', ' ', $document->status)) }}
+                                </span>
+                            </td>
                             <td>
                                 <button class="btn btn-edit" onclick="openModal({{ $document->id }}, '{{ $document->status }}', '{{ $document->rejection_reason ?? '' }}')">
                                     <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-pencil" viewBox="0 0 16 16">
@@ -422,6 +516,11 @@
             const rejectionReasonGroup = document.getElementById('rejectionReasonGroup');
             rejectionReasonGroup.style.display = status === 'rejected' ? 'block' : 'none';
         }
+
+        function closeAlert(button) {
+            button.closest('.alert').style.display = 'none';
+        }
+
         window.onclick = function(event) {
             const modal = document.getElementById('statusModal');
             if (event.target === modal) {

@@ -1,4 +1,3 @@
-```blade
 @extends('RH.master')
 
 @section('content')
@@ -417,4 +416,3 @@
     document.querySelector('.attendancess')?.classList.add('active');
 </script>
 @endsection
-```

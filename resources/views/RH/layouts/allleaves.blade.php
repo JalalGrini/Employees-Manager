@@ -117,9 +117,36 @@
 
         .leaves-table td.reject-reason {
             max-width: 250px;
+            line-height: 1.5;
+            vertical-align: middle;
+        }
+
+        .reject-reason-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            padding: 0.5rem 1rem;
+            background: rgba(239, 68, 68, 0.1);
+            border: 1px solid var(--danger);
+            border-radius: 8px;
+            font-size: 0.9rem;
+            color: var(--dark-blue);
+            box-shadow: var(--shadow);
+            transition: var(--transition);
             word-wrap: break-word;
             white-space: normal;
-            line-height: 1.5;
+            animation: zoomIn 0.3s ease;
+        }
+
+        .reject-reason-badge:hover {
+            transform: scale(1.02);
+            border-color: var(--primary-blue);
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+        }
+
+        .reject-reason-badge i {
+            font-size: 0.85rem;
+            color: var(--danger);
         }
 
         .status-badge {
@@ -348,7 +375,6 @@
         .btn-cancel:hover {
             background: #b02a37;
             color: var(--white);
-
         }
 
         @media (max-width: 767px) {
@@ -377,6 +403,11 @@
                 max-width: 150px;
             }
 
+            .reject-reason-badge {
+                padding: 0.4rem 0.8rem;
+                font-size: 0.85rem;
+            }
+
             .action-buttons {
                 flex-direction: column;
                 gap: 0.5rem;
@@ -386,83 +417,83 @@
                 padding: 1.5rem;
             }
         }
+
         .pagination-container {
-        display: flex;
-        justify-content: center;
-        margin-top: 2.5rem;
-        margin-bottom: 2rem;
-    }
+            display: flex;
+            justify-content: center;
+            margin-top: 2.5rem;
+            margin-bottom: 2rem;
+        }
 
-    .pagination {
-        display: flex;
-        align-items: center;
-        gap: 0.5rem;
-    }
+        .pagination {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
 
-    .pagination a, .pagination span {
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        width: 32px;
-        height: 32px;
-        border-radius: 50%;
-        font-size: 0.9rem;
-        font-weight: 500;
-        text-decoration: none;
-        color: var(--dark-blue);
-        background: var(--white);
-        transition: all 0.3s ease;
-        box-shadow: var(--shadow);
-    }
+        .pagination a, .pagination span {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 32px;
+            height: 32px;
+            border-radius: 50%;
+            font-size: 0.9rem;
+            font-weight: 500;
+            text-decoration: none;
+            color: var(--dark-blue);
+            background: var(--white);
+            transition: all 0.3s ease;
+            box-shadow: var(--shadow);
+        }
 
-    .pagination a.nav-arrow {
-        width: 48px;
-        height: 48px;
-        background: var(--gradient-blue);
-        color: var(--white);
-    }
+        .pagination a.nav-arrow {
+            width: 48px;
+            height: 48px;
+            background: var(--gradient-blue);
+            color: var(--white);
+        }
 
-    .pagination a:hover:not(.nav-arrow) {
-        background: var(--light-blue);
-        color: var(--primary-blue);
-        transform: scale(1.1);
-        box-shadow: 0 6px 16px rgba(0, 0, 0, 0.15);
-    }
+        .pagination a:hover:not(.nav-arrow) {
+            background: var(--light-blue);
+            color: var(--primary-blue);
+            transform: scale(1.1);
+            box-shadow: 0 6px 16px rgba(0, 0, 0, 0.15);
+        }
 
-    .pagination a.nav-arrow:hover {
-        background: var(--primary-blue-dark);
-        transform: scale(1.05);
-        box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2);
-    }
+        .pagination a.nav-arrow:hover {
+            background: var(--primary-blue-dark);
+            transform: scale(1.05);
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2);
+        }
 
-    .pagination .current {
-        background: var(--gradient-blue);
-        color: var(--white);
-        font-weight: 600;
-        transform: scale(1.1);
-        box-shadow: 0 6px 16px rgba(0, 0, 0, 0.15);
-    }
+        .pagination .current {
+            background: var(--gradient-blue);
+            color: var(--white);
+            font-weight: 600;
+            transform: scale(1.1);
+            box-shadow: 0 6px 16px rgba(0, 0, 0, 0.15);
+        }
 
-    .pagination .disabled {
-        color: #aaa;
-        background: #f1f3f5;
-        cursor: not-allowed;
-        box-shadow: none;
-        transform: none;
-    }
+        .pagination .disabled {
+            color: #aaa;
+            background: #f1f3f5;
+            cursor: not-allowed;
+            box-shadow: none;
+            transform: none;
+        }
 
-    .pagination .dots {
-        font-size: 0.9rem;
-        color: var(--dark-blue);
-        padding: 0 0.5rem;
-        background: none;
-        box-shadow: none;
-    }
+        .pagination .dots {
+            font-size: 0.9rem;
+            color: var(--dark-blue);
+            padding: 0 0.5rem;
+            background: none;
+            box-shadow: none;
+        }
 
-    .pagination a i, .pagination span i {
-        font-size: 1.1rem;
-    }
-
+        .pagination a i, .pagination span i {
+            font-size: 1.1rem;
+        }
     </style>
 
     <div class="leaves-container animate__animated animate__fadeIn">
@@ -513,7 +544,14 @@
                                 </span>
                             </td>
                             <td class="reject-reason">
-                                {{ $leave->rejected_reason ?? '—' }}
+                                @if ($leave->status === 'rejected' && $leave->rejected_reason)
+                                    <span class="reject-reason-badge">
+                                        <i class="fas fa-exclamation-circle"></i>
+                                        {{ $leave->rejected_reason }}
+                                    </span>
+                                @else
+                                    —
+                                @endif
                             </td>
                             <td>
                                 <div class="action-buttons">
@@ -530,8 +568,8 @@
     </div>
 
     <div class="pagination-container">
-    {{ $leaves->links('vendor.pagination.custom') }}
-</div>
+        {{ $leaves->links('vendor.pagination.custom') }}
+    </div>
 
     <div id="statusModal" class="modal">
         <div class="modal-content animate__animated animate__zoomIn">
@@ -547,12 +585,12 @@
                         <option value="approved">Approved</option>
                         <option value="rejected">Rejected</option>
                     </select>
-                    @error('status') <span class="error-message">{{ $message }}</span> @enderror
+                    @error('status') <span class="error-message">{{ $message }}</span> @endif
                 </div>
                 <div class="form-group" id="rejectionReasonGroup" style="display: none;">
                     <label for="reject_reason">Rejection Reason</label>
                     <textarea name="rejected_reason" id="reject_reason"></textarea>
-                    @error('rejected_reason') <span class="error-message">{{ $message }}</span> @enderror
+                    @error('rejected_reason') <span class="error-message">{{ $message }}</span> @endif
                     <span id="reject_reason_error" class="error-message" style="display: none;">Rejection reason is required when status is rejected.</span>
                 </div>
                 <div class="modal-buttons">
@@ -564,7 +602,6 @@
     </div>
 
     <script>
-        // Dismiss alert
         document.querySelectorAll('.alert-dismiss').forEach(button => {
             button.addEventListener('click', () => {
                 button.closest('.alert-success').style.display = 'none';
@@ -597,7 +634,6 @@
             rejectionReasonGroup.style.display = status === 'rejected' ? 'block' : 'none';
         }
 
-        // Client-side validation for rejection reason
         document.getElementById('statusForm').addEventListener('submit', function(event) {
             const status = document.getElementById('status').value;
             const rejectReason = document.getElementById('reject_reason').value.trim();

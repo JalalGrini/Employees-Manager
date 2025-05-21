@@ -8,9 +8,9 @@
         --white: #ffffff;
         --light-blue: #e8f0fe;
         --dark-blue: #1f2a44;
-        --gradient-blue: linear-gradient(135deg, #310af5, #2a09cc); /* Updated gradient */
+        --gradient-blue: linear-gradient(135deg, #310af5, #2a09cc);
         --blue: #310af5;
-        --dark-blue: #5a36fd;
+        --dark-blue: #003f7f;
         --gray-bg: #f7f9fc;
         --glass: rgba(255, 255, 255, 0.7);
         --shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
@@ -52,21 +52,24 @@
         font-size: 1.1rem;
     }
 
-    .search-container {
+    .filter-container {
         display: flex;
         justify-content: center;
         margin-bottom: 2rem;
     }
 
-    .search-form {
+    .filter-form {
         display: flex;
         width: 100%;
-        max-width: 600px;
+        max-width: 800px;
         gap: 0.5rem;
+        flex-wrap: wrap;
     }
 
-    .search-bar {
+    .filter-select,
+    .filter-date {
         flex: 1;
+        min-width: 200px;
         padding: 0.75rem 1.5rem;
         border: 2px solid var(--primary-blue);
         border-radius: 50px;
@@ -74,14 +77,21 @@
         outline: none;
         transition: all 0.3s ease;
         box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+        background: var(--white);
     }
 
-    .search-bar:focus {
+    .filter-select:focus,
+    .filter-date:focus {
         border-color: var(--primary-blue-dark);
         box-shadow: 0 4px 15px rgba(0, 0, 0, 0.15);
     }
 
-    .search-button {
+    .filter-date::-webkit-calendar-picker-indicator {
+        cursor: pointer;
+        opacity: 0.7;
+    }
+
+    .filter-button {
         padding: 0.75rem 1.5rem;
         background: var(--gradient-blue);
         color: var(--white);
@@ -94,97 +104,76 @@
         box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
     }
 
-    .search-button:hover {
+    .filter-button:hover {
         background: var(--primary-blue-dark);
         transform: translateY(-2px);
         box-shadow: 0 6px 15px rgba(0, 0, 0, 0.15);
     }
 
-    .employee-grid {
-        display: grid;
-        gap: 2rem;
-        grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+    .clear-button {
+        background: #dc3545;
+        text-decoration: none;
     }
 
-    .employee-card {
-        backdrop-filter: blur(10px);
+    .clear-button:hover {
+        background: #b02a37;
+    }
+
+    .attendance-table {
         background: var(--glass);
         border-radius: 20px;
-        padding: 1.5rem;
-        box-shadow: 0 12px 30px rgba(0, 0, 0, 0.1);
-        text-align: center;
-        transition: transform 0.3s ease, box-shadow 0.3s ease;
-        position: relative;
+        box-shadow: var(--shadow);
+        overflow: hidden;
+        backdrop-filter: blur(10px);
     }
 
-    .employee-card:hover {
-        transform: translateY(-5px);
-        box-shadow: 0 18px 35px rgba(0, 0, 0, 0.15);
+    .attendance-table table {
+        width: 100%;
+        border-collapse: collapse;
     }
 
-    .employee-photo {
-        width: 120px;
-        height: 120px;
-        object-fit: cover;
-        border-radius: 50%;
-        margin-bottom: 1rem;
-        border: 5px solid white;
-        box-shadow: 0 6px 20px rgba(0, 0, 0, 0.1);
-    }
-
-    .employee-card h5 {
-        font-size: 1.3rem;
-        font-weight: 700;
-        color: #333;
-        margin-bottom: 0.4rem;
-    }
-
-    .employee-role {
+    .attendance-table th,
+    .attendance-table td {
+        padding: 1rem;
+        text-align: left;
         font-size: 0.95rem;
-        font-weight: 600;
-        color: #310af5;
-        margin-bottom: 0.8rem;
+        color: var(--dark-blue);
     }
 
-    .department-badge {
-        position: absolute;
-        top: 15px;
-        right: 15px;
-        background: linear-gradient(to right, #5a36fd, #310af5);
-        color: white;
-        font-size: 0.7rem;
+    .attendance-table th {
+        background: var(--gradient-blue);
+        color: var(--white);
+        font-weight: 600;
+    }
+
+    .attendance-table tr {
+        border-bottom: 1px solid rgba(0, 0, 0, 0.05);
+        transition: background 0.3s ease;
+    }
+
+    .attendance-table tr:hover {
+        background: var(--light-blue);
+    }
+
+    .status-badge {
         padding: 0.3rem 0.7rem;
         border-radius: 12px;
-        font-weight: 600;
-        box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+        font-size: 0.8rem;
+        font-weight: 500;
+        display: inline-block;
     }
 
-    .btn-view {
-        background-color: var(--blue);
-        color: var(--white);
-        border: none;
-        padding: 0.4rem 1.1rem;
-        border-radius: 8px;
-        font-size: 0.9rem;
-        transition: background-color 0.3s ease, transform 0.3s ease;
-        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-    }
+    .status-present { background: #28a745; color: var(--white); }
+    .status-absent { background: #dc3545; color: var(--white); }
+    .status-late { background: #ffc107; color: var(--dark-blue); }
 
-    .btn-view:hover {
-        background-color: var(--dark-blue);
-        color: var(--white);
-        transform: translateY(-2px);
-        box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
-    }
-
-    .no-employees {
+    .no-attendances {
         text-align: center;
         color: #666;
         font-size: 1.2rem;
         margin-top: 2rem;
     }
 
-    /* Pagination Styles */
     .pagination-container {
         display: flex;
         justify-content: center;
@@ -292,18 +281,22 @@
             font-size: 1.8rem;
         }
 
-        .search-bar {
+        .filter-select,
+        .filter-date {
+            padding: 0.6rem 1.2rem;
+            font-size: 0.95rem;
+            min-width: 150px;
+        }
+
+        .filter-button {
             padding: 0.6rem 1.2rem;
             font-size: 0.95rem;
         }
 
-        .search-button {
-            padding: 0.6rem 1.2rem;
-            font-size: 0.95rem;
-        }
-
-        .employee-grid {
-            gap: 1.5rem;
+        .attendance-table th,
+        .attendance-table td {
+            padding: 0.8rem;
+            font-size: 0.9rem;
         }
 
         .pagination-container {
@@ -313,6 +306,11 @@
 
         .pagination {
             gap: 0.3rem;
+        }
+
+        ._privatetable {
+            overflow-x: auto;
+            -webkit-overflow-scrolling: touch;
         }
 
         .pagination a, .pagination span {
@@ -338,39 +336,68 @@
 </style>
 
 <div class="page-header animate__animated animate__fadeIn">
-    <h1>My Department's Employee Directory</h1>
-    <p>Search and view employee records.</p>
+    <h1>My Dpartment's Attendance Records</h1>
+    <p>View your department's attendance records by date.</p>
 </div>
 
-<div class="search-container">
-    <form action="{{ route('MAsearchEmployees') }}" method="GET" class="search-form">
-        <input type="text" name="search" class="search-bar" placeholder="Search by name">
-        <button type="submit" class="search-button">Search</button>
+<div class="filter-container">
+    <form action="{{ route('MAattendancess') }}" method="GET" class="filter-form">
+        <input type="date" name="date" id="date" class="filter-date" value="{{ request('date') }}">
+        <button type="submit" class="filter-button">Filter</button>
+        <a href="{{ route('MAattendancess') }}" class="filter-button clear-button">Clear</a>
     </form>
 </div>
 
-<div id="employeeGrid" class="employee-grid">
-    @forelse ($employees as $employee)
-    <div class="employee-card animate__animated animate__fadeInUp">
-        <div class="department-badge">{{ $employee->Departement }}</div>
-        <img class="employee-photo"
-            src="{{ $employee->photo ? asset($employee->photo) : 'https://ui-avatars.com/api/?name=' . urlencode($employee->nomComplet) . '&size=256&background=random' }}"
-            alt="{{ $employee->nomComplet }}"
-        >
-        <h5>{{ $employee->nomComplet }}</h5>
-        <div class="employee-role">{{ $employee->Fonction }}</div>
-        <a href="{{ route('MAviewprofile', $employee->id) }}" class="btn btn-view">View Profile</a>
+@if (session('success'))
+    <div class="alert alert-success animate__animated animate__fadeIn">
+        {{ session('success') }}
     </div>
-    @empty
-        <p class="no-employees">No employees found.</p>
-    @endforelse
+@endif
+
+@if (session('error'))
+    <div class="alert alert-danger animate__animated animate__fadeIn">
+        {{ session('error') }}
+    </div>
+@endif
+
+<div class="_privatetable">
+    <div class="attendance-table animate__animated animate__fadeInUp">
+        <table>
+            <thead>
+                <tr>
+                    <th>Employee Name</th>
+                    <th>Date</th>
+                    <th>Status</th>
+                    <th>Recorded At</th>
+                </tr>
+            </thead>
+            <tbody>
+                @forelse ($attendances as $attendance)
+                    <tr>
+                        <td>{{ $attendance->user->nomComplet ?? 'Unknown' }}</td>
+                        <td>{{ \Carbon\Carbon::parse($attendance->date)->format('d M Y') }}</td>
+                        <td>
+                            <span class="status-badge status-{{ strtolower($attendance->status) }}">
+                                {{ ucfirst($attendance->status) }}
+                            </span>
+                        </td>
+                        <td>{{ \Carbon\Carbon::parse($attendance->created_at)->format('d M Y H:i') }}</td>
+                    </tr>
+                @empty
+                    <tr>
+                        <td colspan="4" class="no-attendances">No attendance records found.</td>
+                    </tr>
+                @endforelse
+            </tbody>
+        </table>
+    </div>
 </div>
 
 <div class="pagination-container">
-    {{ $employees->links('vendor.pagination.custom') }}
+    {{ $attendances->appends(['department' => request('department'), 'date' => request('date')])->links('vendor.pagination.custom') }}
 </div>
 
 <script>
-    document.querySelector('.allemp')?.classList.add('active');
+    document.querySelector('.attendancess')?.classList.add('active');
 </script>
 @endsection

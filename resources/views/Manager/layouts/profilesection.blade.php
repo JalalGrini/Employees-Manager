@@ -1,4 +1,4 @@
-@extends('RH.master')
+@extends('Manager.masterma')
 
 @section('content')
 <section class="main">
@@ -7,12 +7,12 @@
 
     <style>
         :root {
-            --primary-blue: #1a73e8;
-            --primary-blue-dark: #1557b0;
+            --primary-blue: #310af5;
+            --primary-blue-dark: #5a36fd;
             --white: #ffffff;
             --light-blue: #e8f0fe;
             --dark-blue: #1f2a44;
-            --gradient-blue: linear-gradient(135deg, #1a73e8, #1557b0);
+            --gradient-blue: linear-gradient(135deg, #310af5, #2a09cc);
             --gray-bg: #f7f9fc;
             --glass: rgba(255, 255, 255, 0.7);
             --danger: #dc3545;
@@ -130,13 +130,13 @@
             color: var(--white);
         }
 
-        .btn-delete {
+        .btn-cancel {
             background: var(--danger);
             color: var(--white);
         }
 
-        .btn-delete:hover {
-            background: var(--danger-dark);
+        .btn-cancel:hover {
+            background: #b02a37;
             color: var(--white);
         }
 
@@ -230,42 +230,10 @@
         </div>
 
         <div class="action-buttons">
-            <a href="{{ route('editemployee', $employee->id) }}" class="btn btn-edit">Edit</a>
-            <form id="delete-form" action="{{ route('deleteemployee', $employee->id) }}" method="POST">
-                @csrf
-                @method('DELETE')
-                <button type="button" class="btn btn-delete" onclick="confirmDelete()">Delete</button>
-            </form>
+            <a href="{{ route('MAeditemployeesection') }}" class="btn btn-edit">Edit</a>
+            <a href="/MAprofile" class="btn btn-cancel">Cancel</a>
         </div>
     </div>
 
-    <script>
-        function confirmDelete() {
-            Swal.fire({
-                title: 'Are you sure ?',
-                text: "This action cannot be undone.",
-                icon: 'warning',
-                background: 'var(--white)',
-                color: 'var(--dark-blue)',
-                showCancelButton: true,
-                confirmButtonColor: 'var(--danger)',
-                cancelButtonColor: 'var(--primary-blue)',
-                confirmButtonText: '<i class="fas fa-trash-alt"></i> Yes, Delete',
-                cancelButtonText: '<i class="fas fa-times-circle"></i> Cancel',
-                buttonsStyling: false,
-                customClass: {
-                    popup: 'rounded-4 shadow-lg',
-                    title: 'fw-bold fs-4',
-                    htmlContainer: 'mb-3',
-                    confirmButton: 'btn btn-delete px-4 py-2 mx-2',
-                    cancelButton: 'btn btn-edit px-4 py-2 mx-2'
-                }
-            }).then((result) => {
-                if (result.isConfirmed) {
-                    document.getElementById('delete-form').submit();
-                }
-            });
-        }
-    </script>
 </section>
 @endsection

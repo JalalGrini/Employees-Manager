@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use App\Models\Utilisateures;
 
 class Document extends Model
 {
@@ -17,5 +18,9 @@ class Document extends Model
         'rejection_reason',
         'processed_at'
     ];
+    public function employee()
+{
+    return $this->belongsTo(Utilisateures::class, 'employee_id');
+}
     use HasFactory;
 }
