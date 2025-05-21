@@ -1,20 +1,8 @@
-@extends('Employe.masteremp')
+@extends('Manager.masterma')
 
 @section('content')
 <section class="main">
     <style>
-        :root {
-            --primary-blue: #1e3a8a; /* Matches --primary-navy from masteremp */
-            --primary-blue-dark: #1e40af; /* Darker shade, not used but defined for completeness */
-            --white: #f8fafc;
-            --shadow: 0 8px 24px rgba(0, 0, 0, 0.1);
-            --border-gray: #e5e7eb;
-            --success: #22c55e;
-            --danger: #ef4444;
-            --text-muted: #6b7280;
-            --glass: rgba(255, 255, 255, 0.95);
-        }
-
         .logs-container {
             max-width: 1280px;
             margin: 2rem auto;
@@ -46,14 +34,14 @@
             transform: translateX(-50%);
             width: 100px;
             height: 4px;
-            background: var(--primary-blue);
+            background: var(--gradient-blue);
             border-radius: 4px;
         }
 
         .logs-title {
             font-size: 2.5rem;
             font-weight: 600;
-            color: var(--primary-blue);
+            color: var(--dark-blue);
             margin: 0;
             line-height: 1.2;
         }
@@ -97,14 +85,13 @@
             padding: 1rem;
             text-align: left;
             font-size: 0.95rem;
-            color: var(--primary-blue);
+            color: var(--dark-blue);
         }
 
         .logs-table th {
-            background: var(--primary-blue);
+            background: var(--light-blue);
             font-weight: 600;
             font-size: 1rem;
-            color: var(--white);
             position: relative;
         }
 
@@ -143,17 +130,13 @@
         }
 
         .pagination a:hover {
+            background: var(--primary-blue-dark);
             transform: translateY(-2px);
-            box-shadow: 0 6px 16px rgba(0, 0, 0, 0.15);
         }
 
         .pagination span {
             background: var(--border-gray);
             color: var(--text-muted);
-        }
-
-        .alert-dismiss:hover {
-            transform: scale(1.1);
         }
 
         @media (max-width: 767px) {
@@ -186,7 +169,7 @@
 
     <div class="logs-container animate__animated animate__fadeIn">
         <div class="logs-header">
-            <h1 class="logs-title">My Activity Logs</h1>
+            <h1 class="logs-title">All My Department Logs</h1>
         </div>
 
         @if (session('success'))

@@ -4,6 +4,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\CheckINController;
 use App\Http\Controllers\RH;
 use App\Http\Controllers\Employe;
+use App\Http\Controllers\Manager;
 
 /*
 |--------------------------------------------------------------------------
@@ -28,7 +29,7 @@ Route::get('/login',function(){
 
 Route::post('/LoginHandler',[CheckINController::class,"login"])->name('loginhandler');
 
-Route::get('/logout',[CheckINController::class,'logout'])->name('logout');
+Route::match(['get', 'post'], '/logout', [CheckINController::class, 'logout'])->name('logout');
 
 Route::get('/forgotpass',[CheckINController::class,'forgotpass'])->name('matricule');
 
@@ -38,10 +39,9 @@ Route::post('/handlerforgotpass/{id}', [CheckINController::class, 'handlerforgot
 
 Route::get('/handlerforgotpass/{id}', [CheckINController::class, 'showUpdatePassForm'])->name('forgotpass.form');
 
+// RH Routes ----------------------------------------------------
 
-Route::middleware(['employe.auth'])->group(function () {
-
-    // RH Routes -----------------------------------
+Route::middleware(['rh.auth'])->group(function () {
 
     Route::get('/RHdashboard',[RH::class,'dashboard']);
 
@@ -108,46 +108,78 @@ Route::middleware(['employe.auth'])->group(function () {
 
     Route::get('/attendances', [RH::class, 'showaattendences'])->name('attendancess');
 
-
     Route::get('/RHpublishNews',function(){
         return view('RH.layouts.publishnews');
     });
 
     Route::get('/RHlogs',[RH::class, 'logs'])->name('logs');
 
+});
+
     // Employe Routes ---------------------------------------------------------------------------------
 
-    Route::get('/EMdashboard',[Employe::class,'dashboard']);
+    Route::middleware(['employe.auth'])->group(function () {
+        Route::get('/EMdashboard',[Employe::class,'dashboard']);
 
-    Route::get('/EMlogs',[Employe::class, 'logs'])->name('logs');
+        Route::get('/EMlogs',[Employe::class, 'logs'])->name('logs');
 
-    Route::get('/allnewsemp',[Employe::class,'allnews']);
+        Route::get('/allnewsemp',[Employe::class,'allnews']);
 
-    Route::get('/EMprofile',[Employe::class,'profile']);
+        Route::get('/EMprofile',[Employe::class,'profile']);
 
-    Route::get('/profileview',[Employe::class,'profileview']);
+        Route::get('/profileview',[Employe::class,'profileview']);
 
-    Route::get('/editprofilesection',[Employe::class,'editprofilesection'])->name('editprofilesection');
+        Route::get('/editprofilesection',[Employe::class,'editprofilesection'])->name('editprofilesection');
 
-    Route::put('/handleupdateempsection',[Employe::class,'updateemployeesection'])->name('updatesection');
+        Route::put('/handleupdateempsection',[Employe::class,'updateemployeesection'])->name('updatesection');
 
-    Route::get('/EMattendance', [Employe::class, 'index'])->name('EMattendance.index');
+        Route::get('/EMattendance', [Employe::class, 'index'])->name('EMattendance.index');
 
-    Route::post('/EMcheckattendance', [Employe::class, 'attendancestore'])->name('EMattendance.store');
+        Route::post('/EMcheckattendance', [Employe::class, 'attendancestore'])->name('EMattendance.store');
 
-    Route::get('/employee/submit-leave', [Employe::class, 'create'])->name('employee.submit-leave.create');
-    Route::post('/employee/submit-leave', [Employe::class, 'store'])->name('employee.submit-leave');
-    Route::get('/employee/leave-requests', [Employe::class, 'leaves'])->name('employee.leave-requests');
-    Route::delete('/employee/leave/{leave}/cancel', [Employe::class, 'cancel'])->name('employee.leave.cancel');
+        Route::get('/employee/submit-leave', [Employe::class, 'create'])->name('employee.submit-leave.create');
+        Route::post('/employee/submit-leave', [Employe::class, 'store'])->name('employee.submit-leave');
+        Route::get('/employee/leave-requests', [Employe::class, 'leaves'])->name('employee.leave-requests');
+        Route::delete('/employee/leave/{leave}/cancel', [Employe::class, 'cancel'])->name('employee.leave.cancel');
 
-    Route::get('/employee/submit-document', [Employe::class, 'createdoc'])->name('employee.submit-document.create');
-    Route::post('/employee/submit-document', [Employe::class, 'storedoc'])->name('employee.submit-document');
-    Route::get('/employee/document-requests', [Employe::class, 'docs'])->name('employee.document-requests');
-    Route::delete('/employee/document/{document}/cancel', [Employe::class, 'canceldoc'])->name('employee.document.cancel');
+        Route::get('/employee/submit-document', [Employe::class, 'createdoc'])->name('employee.submit-document.create');
+        Route::post('/employee/submit-document', [Employe::class, 'storedoc'])->name('employee.submit-document');
+        Route::get('/employee/document-requests', [Employe::class, 'docs'])->name('employee.document-requests');
+        Route::delete('/employee/document/{document}/cancel', [Employe::class, 'canceldoc'])->name('employee.document.cancel');
+
+        Route::get('/team-members',[Employe::class, 'teammembers']);
+        Route::get('/incompleteddocs',[Employe::class, 'incomdocs']);
+
+        Route::get('/pendingleaves',[Employe::class, 'pendingleaves']);
+
+
+    });
+
+    Route::middleware(['manager.auth'])->group(function () {
+
+        Route::get('/MAdashboard',[Manager::class,'dashboard']);
+
+        Route::get('/MAallemp',[Manager::class,'allemployees'])->name('MAallemp');
+
+        Route::get('/viewprofile/{id}',[Manager::class,'viewprofile'])->name('MAviewprofile');
+
+        Route::get('/MAsearchEmployees', [Manager::class, 'searchEmployees'])->name('MAsearchEmployees');
+
+        Route::get('/MAdocumentRequests',[Manager::class,'documentsreqs'])->name('MAdocumentsreqs');
+
+        Route::get('/MAleavesRequests',[Manager::class,'leavesreqs'])->name('MAleavesreqs');
+
+        Route::get('/mylogs',[Manager::class, 'mylogs'])->name('mylogs');
+
+        Route::get('/alllogs',[Manager::class, 'alllogs'])->name('alllogs');
 
 
 
-});
+
+
+
+
+    });
 
 
 

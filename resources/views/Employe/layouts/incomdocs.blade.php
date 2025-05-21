@@ -342,11 +342,19 @@
 
     <div class="documents-container animate__animated animate__fadeIn">
         <div class="documents-header">
-            <h1 class="documents-title">My Document Requests</h1>
-            <a href="{{ route('employee.submit-document.create') }}" class="add-document-btn">
-                <i class="fas fa-plus-circle"></i> New Request
-            </a>
+            <h1 class="documents-title">InCompleted Documents</h1>
         </div>
+
+        @if (session('success'))
+            <div class="alert alert-success">
+                <i class="fas fa-check-circle mr-2"></i> {{ session('success') }}
+            </div>
+        @endif
+        @if (session('error'))
+            <div class="alert alert-danger">
+                <i class="fas fa-exclamation-circle mr-2"></i> {{ session('error') }}
+            </div>
+        @endif
 
         <div class="table-container">
             <table class="documents-table">
@@ -357,7 +365,6 @@
                         <th>Status</th>
                         <th>Rejection Reason</th>
                         <th>Submitted At</th>
-                        <th>Actions</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -373,19 +380,6 @@
                             </td>
                             <td>{{ $document->rejection_reason ?? '-' }}</td>
                             <td>{{ \Carbon\Carbon::parse($document->created_at)->format('M d, Y H:i') }}</td>
-                            <td>
-                                @if($document->status === 'pending')
-                                    <form action="{{ route('employee.document.cancel', $document->id) }}" method="POST" style="display: inline;">
-                                        @csrf
-                                        @method('DELETE')
-                                        <button type="submit" class="btn btn-cancel">
-                                            <i class="fas fa-times"></i> Cancel
-                                        </button>
-                                    </form>
-                                @else
-                                    <span>-</span>
-                                @endif
-                            </td>
                         </tr>
                     @empty
                         <tr>

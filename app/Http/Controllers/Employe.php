@@ -30,7 +30,7 @@ class Employe extends Controller
     }
     public function logs()
     {
-        $logs = logs::where('user_id', session('employe_id'))->latest()->paginate(5);
+        $logs = logs::where('user_id', session('employe_id'))->latest()->paginate(10);
         return view('Employe.layouts.logs', compact('logs'));
     }
     public function allnews(){
@@ -175,7 +175,7 @@ class Employe extends Controller
         logs::create([
         'user_id' => session('employe_id'),
         'action' => 'Cancel Leave Request',
-        'details' => "Canceled leave request from {$start} to {$end} on " . now()->format('Y-m-d') . ".",
+        'details' => "Canceled leave request from {$leave->start_date} to {$leave->end_date} on " . now()->format('Y-m-d') . ".",
         'status' => 'success',
         ]);
 
@@ -204,7 +204,7 @@ class Employe extends Controller
         logs::create([
         'user_id' => session('employe_id'),
         'action' => 'Document Request',
-        'details' => "Requested document '{$validated['document_title']}' on " . now()->format('Y-m-d') . ".",
+        'details' => "Requested document '{$request->document_title}' on " . now()->format('Y-m-d') . ".",
         'status' => 'success',
         ]);
 
@@ -232,11 +232,31 @@ class Employe extends Controller
         logs::create([
         'user_id' => session('employe_id'),
         'action' => 'Cancel Document Request',
-        'details' => "Canceled document request '{$title}' on " . now()->format('Y-m-d') . ".",
+        'details' => "Canceled document request '{$document->document_title}' on " . now()->format('Y-m-d') . ".",
         'status' => 'success',
         ]);
 
         return redirect()->route('employee.document-requests')->with('success', 'Document request canceled successfully.');
+    }
+    public function teammembers(){
+        $employee = Utilisateures::find(session('employe_id'));
+        $employeDepartement = $employee['Departement'];
+        $employees = Utilisateures::where('Departement', $employeDepartement)->paginate(10);
+        return view('Employe.layouts.teammembers', compact('employees'));
+    }
+    public function incomdocs(){
+        $documents = Document::whereIn('status', ['pending' , 'in_progress' , 'approved'])
+                               ->where('employee_id', session('employe_id'))
+                               ->latest()
+                               ->paginate(10);
+        return view('Employe.layouts.incomdocs', compact('documents'));
+    }
+    public function pendingleaves(){
+        $leaves = Leave::where('status', 'pending')
+                        ->where('employee_id',  session('employe_id'))
+                        ->latest()
+                        ->paginate(10);
+        return view('Employe.layouts.pendingleaves', compact('leaves'));
     }
     
 }

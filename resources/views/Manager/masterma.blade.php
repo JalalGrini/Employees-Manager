@@ -3,24 +3,26 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Employee - EmployeeManager</title>
+    <title>@yield('title', 'EmployeeManager')</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css"/>
     <style>
         :root {
-            --primary-navy: #1e3a8a;
-            --secondary-gray: #5c9efb;
-            --white: #f8fafc;
-            --dark-slate: #5c9efb;
+            --primary-blue: #310af5; /* Requested vibrant blue */
+            --primary-blue-dark: #2a09cc; /* Slightly darker for hover/active */
+            --white: #ffffff;
+            --light-blue: #f5f3ff; /* Light purple-blue background for contrast */
+            --dark-blue: #1f2a44;
             --sidebar-width: 280px;
+            --gradient-blue: linear-gradient(135deg, #310af5, #2a09cc); /* Updated gradient */
             --shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
             --glass: rgba(255, 255, 255, 0.95);
             --danger: #ef4444;
             --success: #22c55e;
             --border-gray: #e5e7eb;
-            --text-muted: #5c9efb;
+            --text-muted: #6b7280;
         }
 
         * {
@@ -31,8 +33,8 @@
 
         body {
             font-family: 'Poppins', sans-serif;
-            background-color: var(--white);
-            color: var(--dark-slate);
+            background-color: var(--light-blue);
+            color: var(--dark-blue);
             line-height: 1.6;
             overflow-x: hidden;
         }
@@ -43,14 +45,13 @@
             visibility: visible;
         }
 
-        /* Sidebar */
         .sidebar {
             position: fixed;
             top: 0;
             left: 0;
             width: var(--sidebar-width);
             height: 100vh;
-            background: var(--primary-navy);
+            background: #2a09cc;
             color: var(--white);
             padding: 2rem 1.5rem;
             transition: all 0.3s ease;
@@ -115,7 +116,7 @@
 
         .sidebar-nav a:hover,
         .sidebar-nav a.active {
-            background: #5c9efb;
+            background: #5a36fd;
             transform: translateX(5px);
         }
 
@@ -132,7 +133,7 @@
             margin-left: var(--sidebar-width);
             padding: 3rem;
             min-height: 100vh;
-            background: var(--white);
+            background: var(--light-blue);
             position: relative;
         }
 
@@ -148,8 +149,8 @@
             gap: 0.5rem;
         }
 
-        .profile-btn, .notifications-btn {
-            background: var(--primary-navy);
+        .profile-btn, .notifications-btn, .attendances-btn, .logout-btn {
+            background: #2a09cc;
             color: var(--white);
             padding: 0.5rem 1rem;
             border-radius: 8px;
@@ -161,18 +162,22 @@
             gap: 0.5rem;
             transition: all 0.3s ease;
             box-shadow: var(--shadow);
+            border: none;
+            cursor: pointer;
         }
 
-        .profile-btn:hover, .notifications-btn:hover {
+        .profile-btn:hover, .notifications-btn:hover, .attendances-btn:hover, .logout-btn:hover {
+            background: #5a36fd;
             transform: translateY(-2px);
             box-shadow: 0 6px 16px rgba(0, 0, 0, 0.15);
         }
 
+        /* Chatbot Styles */
         .chat-button {
             position: fixed;
             bottom: 30px;
             right: 30px;
-            background: var(--primary-navy);
+            background: #2a09cc;
             border-radius: 50%;
             width: 70px;
             height: 70px;
@@ -216,7 +221,7 @@
 
         .chat-window .chat-header {
             background: var(--white);
-            color: black;
+            color: var(--dark-blue);
             padding: 1rem 1.5rem;
             display: flex;
             align-items: center;
@@ -234,7 +239,7 @@
 
         .chat-window .close {
             background: transparent;
-            color: black;
+            color: var(--text-muted);
             border: none;
             border-radius: 50%;
             width: 32px;
@@ -249,6 +254,7 @@
 
         .chat-window .close:hover {
             background: rgba(0, 0, 0, 0.05);
+            color: var(--dark-blue);
         }
 
         .chat-window .chat {
@@ -264,7 +270,7 @@
 
         .chat-window .chat .timestamp {
             text-align: center;
-            color: black;
+            color: var(--text-muted);
             font-size: 0.85rem;
             margin: 0.5rem 0;
         }
@@ -282,14 +288,14 @@
 
         .chat-window .chat .model {
             background: #f0f4f8;
-            color: var(--dark-slate);
+            color: var(--dark-blue);
             align-self: flex-start;
             border-bottom-left-radius: 4px;
         }
 
         .chat-window .chat .user {
-            background: #5c9efb;
-            color: black;
+            background: #ede9fe; /* Light purple-blue for user messages */
+            color: var(--dark-blue);
             align-self: flex-end;
             border-bottom-right-radius: 4px;
         }
@@ -305,14 +311,14 @@
             align-self: center;
             width: 30px;
             height: 30px;
-            border: 4px solid var(--primary-navy);
+            border: 4px solid var(--primary-blue);
             border-top: 4px solid var(--white);
             border-radius: 50%;
             animation: spin 1s linear infinite;
         }
 
         .chat-window .chat .time {
-            color: black;
+            color: var(--text-muted);
             font-size: 0.8rem;
             margin-top: 0.25rem;
             text-align: right;
@@ -346,16 +352,16 @@
         }
 
         .chat-window .input-area input:focus {
-            border-color: var(--primary-navy);
-            box-shadow: 0 0 0 3px rgba(30, 58, 138, 0.1);
+            border-color: var(--primary-blue);
+            box-shadow: 0 0 0 3px rgba(49, 10, 245, 0.1); /* Updated for #310af5 */
         }
 
         .chat-window .input-area input::placeholder {
-            color: black;
+            color: var(--text-muted);
         }
 
         .chat-window .input-area button {
-            display: none;
+            display: none; /* Hidden, using Enter key */
         }
 
         /* Responsive Design */
@@ -459,34 +465,39 @@
 <body>
     <div class="sidebar animate__animated animate__fadeInLeft">
         <div class="sidebar-header">
-            <i class="fas fa-user"></i>
-            <h4>Employee Dashboard</h4>
+            <i class="fas fa-users-cog"></i>
+            <h4>Manager Dashboard</h4>
         </div>
         <ul class="sidebar-nav">
-            <li><a href="/EMdashboard" class="dashboard"><i class="fas fa-tachometer-alt"></i><span>Dashboard</span></a></li>
-            <li><a href="/EMprofile" class="profile"><i class="fas fa-user"></i><span>Profile</span></a></li>
-            <li><a href="/EMattendance" class="attendance"><i class="fas fa-calendar"></i><span>My Attendance</span></a></li>
-            <li><a href="/employee/leave-requests" class="leaves"><i class="fas fa-calendar-check"></i><span>Request Leave</span></a></li>
-            <li><a href="/employee/document-requests" class="documents"><i class="fas fa-file-alt"></i><span>Submit Document</span></a></li>
-            <li><a href="/allnewsemp" class="updates"><i class="fas fa-bullhorn"></i><span>News</span></a></li>
-            <li><a href="/EMlogs" class="logs"><i class="fas fa-history"></i><span>My Logs</span></a></li>
+            <li><a href="/MAdashboard" class="dashboard"><i class="fas fa-tachometer-alt"></i><span>Dashboard</span></a></li>
+            <li><a href="/MAallemp" class="allemp"><i class="fas fa-users"></i><span>All Employees</span></a></li>
+            <li><a href="/MAdocumentRequests" class="docsreqs"><i class="fas fa-file-alt"></i><span>Document Requests</span></a></li>
+            <li><a href="/MAleavesRequests" class="leavesreqs"><i class="fas fa-calendar-check"></i><span>Leaves Requests</span></a></li>
+            <li><a href="/alllogs" class="logs"><i class="fas fa-history"></i><span>All Logs</span></a></li>
+            <li><a href="/attendance" class="attendance"><i class="fas fa-calendar"></i><span>My Attendance</span></a></li>
+            <li><a href="/publishnews" class="pubnews"><i class="fas fa-bullhorn"></i><span>Publish News</span></a></li>
+            <li><a href="/mylogs" class="logs"><i class="fas fa-history"></i><span>My Logs</span></a></li>
         </ul>
     </div>
 
     <div class="main-content">
         <div class="header-bar">
-            <a href="/logout" class="notifications-btn animate__animated animate__fadeIn">
-                <form action="{{ route('logout') }}" method="POST">
-                    @csrf
+            <form action="{{ route('logout') }}" method="POST">
+                @csrf
+                <button type="submit" class="logout-btn animate__animated animate__fadeIn">
                     <i class="fas fa-sign-out-alt"></i>
                     <span>Log Out</span>
-                </form>
+                </button>
+            </form>
+            <a href="/attendance" class="attendances-btn animate__animated animate__fadeIn">
+                <i class="fas fa-calendar"></i>
+                <span>Attendances</span>
             </a>
-            <a href="/allnewsemp" class="notifications-btn animate__animated animate__fadeIn">
+            <a href="/allnews" class="notifications-btn animate__animated animate__fadeIn">
                 <i class="fas fa-bell"></i>
                 <span>Notifications</span>
             </a>
-            <a href="/EMprofile" class="profile-btn animate__animated animate__fadeIn">
+            <a href="/profile" class="profile-btn animate__animated animate__fadeIn">
                 <i class="fas fa-user"></i>
                 <span>Profile</span>
             </a>
@@ -497,10 +508,10 @@
     <section class="chat-window">
         <div class="chat-header">
             <h5>Hi, I'm Nato!</h5>
-            <button class="close"><i class="fas fa-times"></i></button>
+            <button type="button" class="close"><i class="fas fa-times"></i></button>
         </div>
         <div class="chat">
-            <div class="timestamp">May 19 2025, 6:56 PM</div>
+            <div class="timestamp">{{ now()->format('M d Y, h:i A') }}</div>
             <div class="model">
                 <p>Hi – I am here to help answer any questions you have or direct you to the resources you are looking for. How can I assist you?</p>
                 <div class="time">Just now</div>
@@ -520,17 +531,18 @@
     <script>
         const businessInfo = `
             App Features
-                Employee Management: View and update your profile with details like name, department, and contact information.
-                Attendance Tracking: Log and view your attendance records.
-                Leave Requests: Submit and manage your leave requests.
-                Document Requests: Submit documents for HR approval.
-                News Updates: Stay informed with company announcements.
+                Employee Management: Add, update, and manage employee profiles with details like name, department, and contact information.
+                Attendance Tracking: Log and view employee attendance records by department and date.
+                Leave Requests: Submit and manage employee leave requests with approval workflows.
+                Document Requests: Handle employee document submissions and approvals.
+                News Publishing: Share company announcements and updates.
+                Activity Logs: Track user actions for auditing and transparency.
                 Privacy & Security: Role-based access control and data encryption ensure secure operations.
 
             FAQs
             General
             What is EmployeeManager?
-            EmployeeManager is a web-based platform for employees to manage their profiles, attendance, leaves, documents, and view company updates.
+            EmployeeManager is a web-based HR platform for managing employee profiles, attendance, leaves, documents, and company news.
 
             Is EmployeeManager free to use?
             The platform is designed for internal company use. Contact your administrator for access details.
@@ -539,24 +551,27 @@
             Most features require an internet connection, but some data may be cached for offline viewing.
 
             Using the App
-            How do I update my profile?
-            Navigate to the "Profile" section, edit your details, and save the changes.
+            How do I add an employee?
+            Navigate to the "Add Employees" section, fill in the required details, and submit the form.
 
-            How do I track my attendance?
-            Go to the "My Attendance" section to view your attendance records.
+            How do I track attendance?
+            Go to the "Attendances" section, filter by department and date, and view detailed records.
 
             How do I submit a leave request?
-            Visit the "Request Leave" section, fill out the request form, and submit it for approval.
+            Visit the "Leaves Requests" section, fill out the request form, and submit it for approval.
 
-            How do I submit a document?
-            Go to the "Submit Document" section, upload your document, and submit it.
+            Can I edit employee details?
+            Yes, authorized users can update employee profiles in the "All Employees" section.
 
-            How do I view company updates?
-            Check the "Updates" section for the latest announcements.
+            How do I view company news?
+            Check the "Notifications" section for the latest announcements.
 
             Security & Access
             Who can access my data?
-            Access is restricted based on user roles (e.g., employee, HR). Only authorized users can view or edit your data.
+            Access is restricted based on user roles (e.g., HR, employee). Only authorized users can view or edit data.
+
+            How do I delete an employee?
+            Admins can soft-delete employees in the "All Employees" section. Contact your administrator for permanent deletion.
 
             Is my data secure?
             Yes, we use encryption, secure authentication, and role-based access to protect your data.
@@ -568,14 +583,14 @@
                 Consistency: Ensure uniform tone and style across responses.
 
             Example Response:
-            "Thank you for your question! You can submit a leave request by navigating to the 'Request Leave' section and filling out the form. Let us know if you need further assistance!"
+            "Thank you for your question! You can track attendance by navigating to the 'Attendances' section and filtering by department or date. Let us know if you need further assistance!"
 
             Greetings & Small Talk
             User: Hi!
             Bot: Hello! How can I assist you with EmployeeManager today?
 
             User: Hey, how are you?
-            Bot: I'm doing great, thanks! How can I help you today?
+            Bot: I'm doing great, thanks! How can I help you with employee management?
 
             User: Hope you're doing well!
             Bot: Thank you! I'm ready to assist. What's on your mind?
@@ -584,13 +599,13 @@
             Bot: You're very welcome! Let me know if you need anything else.
 
             User: Good morning!
-            Bot: Good morning! Ready to tackle your day?
+            Bot: Good morning! Ready to manage your team today?
 
             User: What’s up?
-            Bot: Just here to help with your employee tasks! How can I assist?
+            Bot: Just here to help streamline your HR tasks! How can I assist?
 
             User: Bye!
-            Bot: See you later! Stay productive! 👋
+            Bot: See you later! Keep your team running smoothly! 👋
         `;
 
         const API_KEY = 'AIzaSyDfJbgtnvGUeTdvsg2Nj_gaGAG74DrBNVI';

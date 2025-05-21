@@ -253,19 +253,13 @@
 
     <div class="leave-table-container">
         <div class="leave-table-card animate__animated animate__fadeInUp">
-            <h2>My Leave Requests</h2>
+            <h2>Pending Leave Requests</h2>
             <div class="d-flex justify-content-end mb-4">
-                <a href="{{ route('employee.submit-leave.create') }}" class="btn-primary animate__animated animate__zoomIn">
-                    <i class="fas fa-calendar-plus"></i> Request New Leave
-                </a>
             </div>
             @if($leaves->isEmpty())
                 <div class="no-requests-card animate__animated animate__fadeInUp">
                     <i class="fas fa-calendar-times"></i>
                     <p>No leave requests found. Start by requesting a new leave!</p>
-                    <a href="{{ route('employee.submit-leave.create') }}" class="btn btn-primary">
-                        <i class="fas fa-calendar-plus"></i> Request Leave
-                    </a>
                 </div>
             @else
                 <table class="table">
@@ -277,7 +271,6 @@
                             <th>Status</th>
                             <th>Rejection Reason</th>
                             <th>Submitted At</th>
-                            <th>Actions</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -293,19 +286,6 @@
                                 </td>
                                 <td>{{ $leave->rejected_reason ?? '-' }}</td>
                                 <td>{{ $leave->created_at->format('M d, Y H:i') }}</td>
-                                <td>
-                                    @if($leave->status === 'pending')
-                                        <form action="{{ route('employee.leave.cancel', $leave->id) }}" method="POST" style="display: inline;">
-                                            @csrf
-                                            @method('DELETE')
-                                            <button type="submit" class="btn btn-danger-outline animate__animated animate__zoomIn">
-                                                <i class="fas fa-trash"></i> Cancel
-                                            </button>
-                                        </form>
-                                    @else
-                                        <span>-</span>
-                                    @endif
-                                </td>
                             </tr>
                         @endforeach
                     </tbody>

@@ -149,8 +149,14 @@
         }
 
         .btn-submit {
+            text-decoration: none;
             background: var(--primary-navy);
             color: var(--white);
+            border: none;
+            padding: 0.75rem 2rem;
+            border-radius: 12px;
+            font-weight: 500;
+            transition: all 0.3s ease;
         }
 
         .btn-submit:hover {
@@ -158,7 +164,10 @@
             transform: translateY(-2px);
             box-shadow: 0 4px 10px rgba(0, 0, 0, 0.15);
             color: var(--white);
-
+        }
+        .btn-submit:active {
+            background: var(--navy-dark);
+            color: var(--white);
         }
 
         .btn-back {
@@ -248,7 +257,7 @@
                 <a href="{{ route('employee.document-requests') }}" class="btn btn-back">
                     <i class="fas fa-arrow-left"></i> Back to Document Requests
                 </a>
-                <button type="submit" class="btn btn-submit">Submit Request</button>
+                <button type="submit" class="btn-submit">Submit Request</button>
             </div>
         </form>
     </div>

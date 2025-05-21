@@ -19,34 +19,74 @@ class LeavesSeeder extends Seeder
     public function run()
     {
         leave::create([
-            'employee_id' => 1,
-            'employee_name' => 'Oussama Faiz',
-            'leave_reason' => 'Congé annuel',
-            'start_date' => '2025-07-01',
-            'end_date' => '2025-07-15',
-            'status' => 'pending',
-            'rejected_reason' => null,
-        ]);
+    'employee_id' => 4,
+    'employee_name' => 'Jalal Grini',
+    'leave_reason' => 'Maladie',
+    'start_date' => '2025-06-01',
+    'end_date' => '2025-06-05',
+    'status' => 'pending',
+    'rejected_reason' => null,
+]);
 
-        /*
-        leave::create([
-            'employee_id' => 3,
-            'employee_name' => 'Tarik Boukaidi',
-            'leave_reason' => 'Maladie',
-            'start_date' => '2025-08-05',
-            'end_date' => '2025-08-10',
-            'status' => 'pending',
-            'rejected_reason' => null,
-        ]);
-        */
-        leave::create([
-            'employee_id' => 2,
-            'employee_name' => 'Taha Lamhandi',
-            'leave_reason' => 'Congé exceptionnel',
-            'start_date' => '2025-09-12',
-            'end_date' => '2025-09-14',
-            'status' => 'pending',
-            'rejected_reason' => null,
-        ]);
+leave::create([
+    'employee_id' => 5,
+    'employee_name' => 'Mohamed Benzraidi',
+    'leave_reason' => 'Vacances annuelles',
+    'start_date' => '2025-07-10',
+    'end_date' => '2025-07-24',
+    'status' => 'pending',
+    'rejected_reason' => null,
+]);
+
+leave::create([
+    'employee_id' => 6,
+    'employee_name' => 'Youssef El Amrani',
+    'leave_reason' => 'Congé exceptionnel',
+    'start_date' => '2025-08-15',
+    'end_date' => '2025-08-17',
+    'status' => 'pending',
+    'rejected_reason' => null,
+]);
+
+leave::create([
+    'employee_id' => 7,
+    'employee_name' => 'Amina Benali',
+    'leave_reason' => 'Naissance',
+    'start_date' => '2025-09-20',
+    'end_date' => '2025-10-04',
+    'status' => 'pending',
+    'rejected_reason' => null,
+]);
+
+leave::create([
+    'employee_id' => 8,
+    'employee_name' => 'Rachid Moujahid',
+    'leave_reason' => 'Décès d’un proche',
+    'start_date' => '2025-10-12',
+    'end_date' => '2025-10-15',
+    'status' => 'pending',
+    'rejected_reason' => null,
+]);
+
+leave::create([
+    'employee_id' => 9,
+    'employee_name' => 'Khadija Zerhouni',
+    'leave_reason' => 'Congé sans solde',
+    'start_date' => '2025-11-01',
+    'end_date' => '2025-11-10',
+    'status' => 'pending',
+    'rejected_reason' => null,
+]);
+
+leave::create([
+    'employee_id' => 10,
+    'employee_name' => 'Walid Bouzid',
+    'leave_reason' => 'Mariage',
+    'start_date' => '2025-06-25',
+    'end_date' => '2025-07-05',
+    'status' => 'pending',
+    'rejected_reason' => null,
+]);
+
     }
 }

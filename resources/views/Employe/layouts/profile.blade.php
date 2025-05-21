@@ -299,7 +299,7 @@
         }
 
         .btn-submit {
-            background: var(--gradient-blue);
+            background: var(--primary-blue);
             color: var(--white);
         }
 

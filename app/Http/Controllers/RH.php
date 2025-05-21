@@ -26,7 +26,7 @@ class RH extends Controller
 
     public function allemployees()
     {
-        $employees = Utilisateures::paginate(3);
+        $employees = Utilisateures::paginate(6);
         return view('RH.layouts.allemployees', compact('employees'));
     }
 
@@ -61,7 +61,7 @@ class RH extends Controller
             'status' => 'success',
         ]);
 
-        $employees = Utilisateures::paginate(3);
+        $employees = Utilisateures::paginate(6);
         return view('RH.layouts.allemployees', compact('employees'));
     }
 
@@ -174,7 +174,7 @@ class RH extends Controller
 
     public function documentsreqs()
     {
-        $documents = Document::whereIn('status', ['pending', 'in_progress', 'approved'])->paginate(2);
+        $documents = Document::whereIn('status', ['pending', 'in_progress', 'approved'])->paginate(8);
         return view('RH.layouts.documentRequests', compact('documents'));
     }
 
@@ -228,7 +228,7 @@ class RH extends Controller
 
     public function completeddocs()
     {
-        $documents = Document::whereIn('status', ['completed'])->paginate(2);
+        $documents = Document::whereIn('status', ['completed'])->paginate(8);
         return view('RH.layouts.completeddocs', compact('documents'));
     }
 
@@ -270,19 +270,19 @@ class RH extends Controller
 
     public function allnews()
     {
-        $news = News::paginate(2);
+        $news = News::paginate(4);
         return view('RH.layouts.allnews', compact('news'));
     }
 
     public function inactiveemp()
     {
-        $employees = Utilisateures::whereIn('etat', ['Inactif'])->paginate(2);
+        $employees = Utilisateures::whereIn('etat', ['Inactif'])->paginate(6);
         return view('RH.layouts.inactiveemp', compact('employees'));
     }
 
     public function activeemp()
     {
-        $employees = Utilisateures::whereIn('etat', ['actif'])->paginate(2);
+        $employees = Utilisateures::whereIn('etat', ['actif'])->paginate(6);
         return view('RH.layouts.activeemp', compact('employees'));
     }
 
@@ -348,7 +348,7 @@ class RH extends Controller
     public function leavesreqs()
     {
         $today = Carbon::today();
-        $leaves = Leave::whereDate('end_date', '>=', $today)->paginate(2);
+        $leaves = Leave::whereDate('end_date', '>=', $today)->paginate(8);
         return view('RH.layouts.allleaves', compact('leaves'));
     }
 
@@ -433,7 +433,7 @@ class RH extends Controller
         $today = Carbon::today();
         $leaves = Leave::where('status', 'approved')
                        ->whereDate('end_date', '>=', $today)
-                       ->paginate(2);
+                       ->paginate(8);
         return view('RH.layouts.approvedleaves', compact('leaves'));
     }
 
@@ -542,7 +542,7 @@ class RH extends Controller
 
     public function logs()
     {
-        $logs = logs::where('user_id', session('employe_id'))->latest()->paginate(5);
+        $logs = logs::where('user_id', session('employe_id'))->latest()->paginate(10);
         return view('RH.layouts.logs', compact('logs'));
     }
     public function showaattendences(Request $request){
@@ -565,7 +565,7 @@ class RH extends Controller
                 $query->whereDate('date', $date);
             }
 
-            $attendances = $query->orderBy('date', 'desc')->paginate(10);
+            $attendances = $query->orderBy('date', 'desc')->paginate(8);
             $attendances->appends(['department' => $department, 'date' => $date]);
 
         return view('RH.layouts.attendancess', compact('attendances'));

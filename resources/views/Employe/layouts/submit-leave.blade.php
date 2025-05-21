@@ -113,7 +113,8 @@
         }
 
         .btn-submit:hover {
-            background: var(--secondary-gray);
+            background: var(--primary-navy);
+            color: var(--white);
             transform: translateY(-2px) scale(1.02);
             box-shadow: 0 6px 16px rgba(0, 0, 0, 0.2);
         }

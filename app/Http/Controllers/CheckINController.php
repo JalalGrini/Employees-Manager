@@ -10,7 +10,7 @@ class CheckINController extends Controller
 {
     public function login(Request $request)
     {
-        session()->flush();
+        session()->forget(['errorPassword', 'messagePassword']);
         $request->validate([
             'matricule' => 'required',
             'password' => 'required'
@@ -28,6 +28,7 @@ class CheckINController extends Controller
             session([
                 'employe_id' => $employe->id,
                 'name' => $employe->nomComplet,
+                'profile' => $employe->profile,
             ]);
 
             logs::create([
@@ -79,7 +80,7 @@ class CheckINController extends Controller
                 ]);
             }
         }
-        $request->session()->flush();
+        $request->session()->forget(['employe_id', 'name', 'profile']);
         return redirect('/login');
     }
 

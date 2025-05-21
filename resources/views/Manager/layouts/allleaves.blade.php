@@ -1,4 +1,4 @@
-@extends('RH.master')
+@extends('Manager.masterma')
 
 @section('content')
 <section class="main">
@@ -6,12 +6,12 @@
 
     <style>
         :root {
-            --primary-blue: #2563eb;
-            --primary-blue-dark: #1e40af;
+            --primary-blue: #310af5;
+            --primary-blue-dark: #5a36fd;
             --white: #ffffff;
             --light-blue: #eff6ff;
             --dark-blue: #1e293b;
-            --gradient-blue: linear-gradient(135deg, #2563eb, #1e40af);
+            --gradient-blue: linear-gradient(135deg, #310af5, #2a09cc);
             --gray-bg: #f8fafc;
             --glass: rgba(255, 255, 255, 0.85);
             --danger: #ef4444;
@@ -497,7 +497,6 @@
                         <th style="width: 15%;">End Date</th>
                         <th style="width: 10%;">Status</th>
                         <th style="width: 20%;">Reject Reason</th>
-                        <th style="width: 10%;">Actions</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -515,13 +514,6 @@
                             <td class="reject-reason">
                                 {{ $leave->rejected_reason ?? '—' }}
                             </td>
-                            <td>
-                                <div class="action-buttons">
-                                    <button type="button" class="btn btn-edit" onclick="openModal('{{ $leave->id }}', '{{ addslashes($leave->employee ? $leave->employee->nomComplet : 'N/A') }}', '{{ $leave->status }}', '{{ addslashes($leave->rejected_reason ?? '') }}')" aria-label="Edit leave status">
-                                        <i class="fas fa-edit"></i> Edit
-                                    </button>
-                                </div>
-                            </td>
                         </tr>
                     @endforeach
                 </tbody>
@@ -533,90 +525,5 @@
     {{ $leaves->links('vendor.pagination.custom') }}
 </div>
 
-    <div id="statusModal" class="modal">
-        <div class="modal-content animate__animated animate__zoomIn">
-            <span class="modal-close" onclick="closeModal()">×</span>
-            <h2 style="font-size: 1.5rem; font-weight: 600; color: var(--dark-blue); text-align: center;">Update Leave Status</h2>
-            <form id="statusForm" method="POST" class="modal-form">
-                @csrf
-                @method('PATCH')
-                <div class="form-group">
-                    <label for="status">Status</label>
-                    <select name="status" id="status" onchange="toggleRejectionReason()">
-                        <option value="pending">Pending</option>
-                        <option value="approved">Approved</option>
-                        <option value="rejected">Rejected</option>
-                    </select>
-                    @error('status') <span class="error-message">{{ $message }}</span> @enderror
-                </div>
-                <div class="form-group" id="rejectionReasonGroup" style="display: none;">
-                    <label for="reject_reason">Rejection Reason</label>
-                    <textarea name="rejected_reason" id="reject_reason"></textarea>
-                    @error('rejected_reason') <span class="error-message">{{ $message }}</span> @enderror
-                    <span id="reject_reason_error" class="error-message" style="display: none;">Rejection reason is required when status is rejected.</span>
-                </div>
-                <div class="modal-buttons">
-                    <button type="submit" class="btn btn-submit">Save</button>
-                    <button type="button" class="btn btn-cancel" onclick="closeModal()">Cancel</button>
-                </div>
-            </form>
-        </div>
-    </div>
-
-    <script>
-        // Dismiss alert
-        document.querySelectorAll('.alert-dismiss').forEach(button => {
-            button.addEventListener('click', () => {
-                button.closest('.alert-success').style.display = 'none';
-            });
-        });
-
-        function openModal(leaveId, employeeName, currentStatus, rejectionReason) {
-            const modal = document.getElementById('statusModal');
-            const form = document.getElementById('statusForm');
-            const statusSelect = document.getElementById('status');
-            const rejectionReasonInput = document.getElementById('reject_reason');
-            const rejectionReasonError = document.getElementById('reject_reason_error');
-
-            form.action = '{{ route("leaves.update", ":id") }}'.replace(':id', leaveId);
-            statusSelect.value = currentStatus;
-            rejectionReasonInput.value = rejectionReason || '';
-            rejectionReasonError.style.display = 'none';
-            toggleRejectionReason();
-            modal.style.display = 'flex';
-        }
-
-        function closeModal() {
-            const modal = document.getElementById('statusModal');
-            modal.style.display = 'none';
-        }
-
-        function toggleRejectionReason() {
-            const status = document.getElementById('status').value;
-            const rejectionReasonGroup = document.getElementById('rejectionReasonGroup');
-            rejectionReasonGroup.style.display = status === 'rejected' ? 'block' : 'none';
-        }
-
-        // Client-side validation for rejection reason
-        document.getElementById('statusForm').addEventListener('submit', function(event) {
-            const status = document.getElementById('status').value;
-            const rejectReason = document.getElementById('reject_reason').value.trim();
-            const rejectionReasonError = document.getElementById('reject_reason_error');
-
-            if (status === 'rejected' && !rejectReason) {
-                event.preventDefault();
-                rejectionReasonError.style.display = 'block';
-            } else {
-                rejectionReasonError.style.display = 'none';
-            }
-        });
-
-        window.onclick = function(event) {
-            const modal = document.getElementById('statusModal');
-            if (event.target === modal) {
-                closeModal();
-            }
-        };
-    </script>
 </section>
 @endsection
